@@ -1,10 +1,196 @@
 <!DOCTYPE html>
-<html lang="en">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>零维内弹道</title>
+    <!-- Bootstrap core CSS -->
+    <link href="/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesom字体 -->
+    <link rel="stylesheet" href="/css/font-awesome.min.css">
+    <!-- Custom styles for this template -->
+    <link href="/css/shop-item.css" rel="stylesheet">
 </head>
 <body>
+    <div class="card card-outline-secondary my-4">
+        <div class="card-header">
+            参数输入
+        </div>
+        <div class="card-body">
+            <form id="calForm" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="srmName">发动机名称</label>
+                    <input type="text" class="form-control" id="srmName" name="srmName" placeholder="你的发动机叫啥">
+                </div>
+                <small class="text-muted">主装药参数</small>
+                <hr>
+                <div class="form-group">
+                    <label for="a_main">装药燃速系数</label>
+                    <input type="text" class="form-control" id="a_main" name="propmain.a" placeholder="主装药燃速系数(MPa下m/s)">
+                </div>
+                <div class="form-group">
+                    <label for="n_main">装药燃速压力指数</label>
+                    <input type="text" class="form-control" id="n_main" name="propmain.n" placeholder="主装药压力指数(MPa下m/s)">
+                </div>
+                <div class="form-group">
+                    <label for="dens_main">装药密度</label>
+                    <input type="text" class="form-control" id="dens_main" name="propmain.dens" placeholder="主装药密度(kg/m^3)">
+                </div>
+                <div class="form-group">
+                    <label for="cs_main">装药特征速度</label>
+                    <input type="text" class="form-control" id="cs_main" name="propmain.cstar" placeholder="主装药特征速度(m/s)">
+                </div>
+                <div class="form-group">
+                    <label for="tp_main">装药燃气温度</label>
+                    <input type="text" class="form-control" id="tp_main" name="propmain.Tp" placeholder="主装药燃气温度(K)">
+                </div>
+                <div class="form-group">
+                    <label for="rg_main">装药燃气气体常数</label>
+                    <input type="text" class="form-control" id="rg_main" name="propmain.Rg" placeholder="主装药燃气气体常数(J/kg·K)">
+                </div>
+                <div class="form-group">
+                    <label for="k_main">装药燃气比热比</label>
+                    <input type="text" class="form-control" id="k_main" name="propmain.k" placeholder="主装药燃气比热比">
+                </div>
+                <div class="form-group">
+                    <label for="tb_main">装药发火点温度</label>
+                    <input type="text" class="form-control" id="tb_main" name="propmain.Tburn" placeholder="主装药起火点(K)">
+                </div>
+                <small class="text-muted">点火药参数</small>
+                <hr>
+                <div class="form-group">
+                    <label for="a_ig">点火药燃速系数</label>
+                    <input type="text" class="form-control" id="a_ig" name="propig.a" placeholder="点火药燃速系数(MPa下m/s)">
+                </div>
+                <div class="form-group">
+                    <label for="n_ig">点火药燃速压力指数</label>
+                    <input type="text" class="form-control" id="n_ig" name="propig.n" placeholder="点火药压力指数(MPa下m/s)">
+                </div>
+                <div class="form-group">
+                    <label for="dens_ig">点火药密度</label>
+                    <input type="text" class="form-control" id="dens_ig" name="propig.dens" placeholder="点火药密度(kg/m^3)">
+                </div>
+                <div class="form-group">
+                    <label for="cs_ig">点火药特征速度</label>
+                    <input type="text" class="form-control" id="cs_ig" name="propig.cstar" placeholder="点火药特征速度(m/s)">
+                </div>
+                <div class="form-group">
+                    <label for="tp_ig">点火药燃气温度</label>
+                    <input type="text" class="form-control" id="tp_ig" name="propig.Tp" placeholder="点火药燃气温度(K)">
+                </div>
+                <div class="form-group">
+                    <label for="rg_ig">点火药燃气气体常数</label>
+                    <input type="text" class="form-control" id="rg_ig" name="propig.Rg" placeholder="点火药燃气气体常数(J/kg·K)">
+                </div>
+                <div class="form-group">
+                    <label for="k_ig">点火药燃气比热比</label>
+                    <input type="text" class="form-control" id="k_ig" name="propig.k" placeholder="点火药燃气比热比">
+                </div>
+                <small class="text-muted">发动机结构参数</small>
+                <hr>
+                <div class="form-group">
+                    <label for="dt">喷管喉径</label>
+                    <input type="text" class="form-control" id="dt" name="motor.dt" placeholder="喉部直径(m)">
+                </div>
+                <div class="form-group">
+                    <label for="ek">喷管烧蚀率</label>
+                    <input type="text" class="form-control" id="ek" name="motor.ek" placeholder="双边烧蚀(m/s)">
+                </div>
+                <div class="form-group">
+                    <label for="ekTime">喷管开始烧蚀时间</label>
+                    <input type="text" class="form-control" id="ekTime" name="motor.ekTime" placeholder="喷管开始烧蚀时间(s)">
+                </div>
+                <div class="form-group">
+                    <label for="epsA">喷管膨胀比</label>
+                    <input type="text" class="form-control" id="epsA" name="motor.epsA" placeholder="喷管膨胀比">
+                </div>
+                <div class="form-group">
+                    <label for="vc">燃烧室初始容积</label>
+                    <input type="text" class="form-control" id="vc" name="motor.vc0" placeholder="燃烧室初容(m^3)">
+                </div>
+                <div class="form-group">
+                    <label for="popen">喷管堵盖打开压强</label>
+                    <input type="text" class="form-control" id="popen" name="motor.pOpen" placeholder="堵盖打开压强(Pa)">
+                </div>
+                <div class="form-group">
+                    <label for="xq">燃烧室燃烧效率</label>
+                    <input type="text" class="form-control" id="xq" name="motor.xq" placeholder="燃烧效率，一般为0.98">
+                </div>
+                <div class="form-group">
+                    <label for="coeig">点火修正系数</label>
+                    <input type="text" class="form-control" id="coeig" name="motor.coeIg" placeholder="点火修正系数，一般为0.46">
+                </div>
+                <div class="form-group">
+                    <label for="dtig">点火发动机喷孔当量直径</label>
+                    <input type="text" class="form-control" id="dtig" name="motor.dtig" placeholder="点火器等效直径(m)">
+                </div>
+                <small class="text-muted">环境参数</small>
+                <hr>
+                <div class="form-group">
+                    <label for="ra">空气气体常数</label>
+                    <input type="text" class="form-control" id="ra" name="env.Ra" placeholder="空气气体常数(一般为286.846J/kg·K)">
+                </div>
+                <div class="form-group">
+                    <label for="pa">环境压强</label>
+                    <input type="text" class="form-control" id="pa" name="env.p0" placeholder="环境压强(Pa)">
+                </div>
+                <div class="form-group">
+                    <label for="ta">环境温度</label>
+                    <input type="text" class="form-control" id="ta" name="env.temp0" placeholder="环境温度(K)">
+                </div>
+                <div class="form-group">
+                    <label for="tw">工作温度</label>
+                    <input type="text" class="form-control" id="tw" name="env.tempw" placeholder="工作温度(K)">
+                </div>
+                <div class="form-group">
+                    <label for="step">计算步长</label>
+                    <input type="text" class="form-control" id="step" name="env.h" value="0.001" placeholder="使用龙格库塔的时间步长(s)" readonly unselectable="on">
+                </div>
+                <small class="text-muted">燃面肉厚文件上传</small>
+                <hr>
+                <div class="form-group">
+                    <label >点火药燃面肉厚</label>
+                    <input type="file" class="form-control" id="igGrain" name="igGrain"/>
+                    <label >主装药燃面肉厚</label>
+                    <input type="file" class="form-control" id="mainGrain" name="mainGrain"/>
+                </div>
+                <button type="button" class="btn btn-primary" id="calBtn">试试手气！</button>
+                <button type="button" class="btn btn-success" disabled="disabled" id="resultBtn">查看结果</button>
+            </form>
+        </div>
+    </div>
+    <!-- Modal -->
+    <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="myModalLabel">结果</h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
 
+                </div>
+                <div class="modal-body">
+                    <div id="container"></div>
+                </div>
+                <div class="modal-footer">
+                    <div class="btn-group" role="group" aria-label="...">
+                        <button type="button" id="pbBtn" class="btn btn-default">压强</button>
+                        <button type="button" id="fBtn" class="btn btn-default">推力</button>
+                        <button type="button" id="mrBtn" class="btn btn-default">质量流率</button>
+                        <button type="button" id="tempBtn" class="btn btn-default">燃烧室温度</button>
+                        <button type="button" id="dtBtn" class="btn btn-default">喷管喉径</button>
+                    </div>
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.bundle.min.js"></script>
+    <script src="/js/custom.js"></script>
+    <script src="/js/entirebals.js"></script>
+    <script src="/js/highcharts/highcharts.js"></script>
+    <script src="/js/highcharts/exporting.js"></script>
+    <script src="/js/highcharts/series-label.js"></script>
+    <script src="/js/highcharts/oldie.js"></script>
+    <script src="/js/highcharts/boost.js"></script>
 </body>
 </html>
