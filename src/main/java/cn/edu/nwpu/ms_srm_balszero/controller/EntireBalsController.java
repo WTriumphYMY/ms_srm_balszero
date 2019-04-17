@@ -5,14 +5,13 @@ import cn.edu.nwpu.ms_srm_balszero.repository.BalsResultRepository;
 import cn.edu.nwpu.ms_srm_balszero.service.*;
 import com.alibaba.druid.support.json.JSONUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.ui.Model;
 import org.springframework.util.ResourceUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -40,10 +39,11 @@ public class EntireBalsController {
 
 
     @PostMapping("/module/bals")
-    public Map<String, List> calculateBals(SrmVO srmVO, String srmName,
-                                           MultipartFile igGrain, MultipartFile mainGrain,
-                                           HttpServletRequest request, Model model) {
-
+    public Map<String, List> calculateBals(SrmVO srmVO, @RequestParam("srmName") String srmName,
+                                           @RequestParam("grains") MultipartFile[] grains, HttpServletResponse response) {
+        response.addHeader("Access-Control-Allow-Origin", "*");
+        response.addHeader("Access-Control-Allow-Headers", "X-Requested-With");
+        response.addHeader("Access-Control-Allow-Methods", "PUT,POST,GET,DELETE,OPTIONS");
         saveData(srmVO, srmName);
         String igGrainName = UUID.randomUUID() + "igprop.grain";
         String mainGrainName = UUID.randomUUID() + "mainprop.grain";
@@ -66,8 +66,10 @@ public class EntireBalsController {
         try {
             Files.deleteIfExists(iggrainPath.toPath());
             Files.deleteIfExists(maingrainPath.toPath());
-            igGrain.transferTo(iggrainPath);
-            mainGrain.transferTo(maingrainPath);
+            grains[0].transferTo(iggrainPath);
+            grains[1].transferTo(maingrainPath);
+//            igGrain.transferTo(iggrainPath);
+//            mainGrain.transferTo(maingrainPath);
         } catch (IOException e) {
             result = new HashMap<>();
             success.add(false);
@@ -152,7 +154,7 @@ public class EntireBalsController {
     }
 
     /**
-     * 跨域调用
+     * 其他调用查看已算出来的结果
      * @return
      */
     @PostMapping("/getCalculatedResultList")
@@ -172,6 +174,11 @@ public class EntireBalsController {
     public String getBalsResult(@PathVariable String srmName){
         return balsResultRepository.findBySrmName(srmName).getResult();
     }
+
+//    @PostMapping(value = "/bals/calzero", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//    public String feignCalBals(@RequestPart("grains") MultipartFile[] grains, @RequestParam("srmVoJson") String srmVoJson, @RequestParam("srmName") String srmName){
+//        return JSONUtils.toJSONString(calculateBals((SrmVO)JSONUtils.parse(srmVoJson), srmName, grains));
+//    }
 
     private void saveResult(Map<String, List> result, String srmName){
         BalsResult balsResult = new BalsResult();
